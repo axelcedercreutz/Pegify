@@ -1,4 +1,5 @@
 import React from 'react';
+import Reader from './Reader'
 import logo from './logo.svg';
 import './App.css';
 
@@ -17,6 +18,7 @@ function App() {
         </label>
         <input type="submit" value="Submit" />
       </form>
+      <Reader/>
       </header>
     </div>
   );
