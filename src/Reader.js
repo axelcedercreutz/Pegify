@@ -4,20 +4,19 @@ export default function Reader() {
 
   const [tag, setTag] = useState('')
   const [buttonVisible, setVisibility] = useState('none')
-  const [log, appendLog] = useState([])
 
   const handleReadingEvent = async event => {
     const message = event.message
     for (const record of message.records) {
-      appendLog(log.push("Record type:  " + record.recordType))
-      appendLog(log.push("MIME type:    " + record.mediaType))
-      appendLog(log.push("Record id:    " + record.id))
+      alert("Record type:  " + record.recordType)
+      alert("MIME type:    " + record.mediaType)
+      alert("Record id:    " + record.id)
       switch (record.recordType) {
         case 'text':
-          appendLog(log.push(record.data))
+          alert(record.data)
           break
         default:
-          appendLog(log.push(record.data))
+          alert(record.data)
           setTag(record.id)
           break
       }
@@ -61,9 +60,6 @@ export default function Reader() {
         Activate NFC Reader
       </button>
       <span>{tag}</span>
-      <ul>
-        {log.map((el) => <li>{el}</li>)}
-      </ul>
     </div>
   )
 }
