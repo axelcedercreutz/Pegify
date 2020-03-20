@@ -7,9 +7,9 @@ export default function Reader() {
 
   const handleReadingEvent = async event => {
     const message = event.message
-    alert(event)
-    alert(event.message)
+    alert(event.message.length)
     for (const record of message.records) {
+      alert("Record:  " + record)
       alert("Record type:  " + record.recordType)
       alert("MIME type:    " + record.mediaType)
       alert("Record id:    " + record.id)
@@ -20,7 +20,6 @@ export default function Reader() {
           break
         default:
           alert(record.data)
-          setTag(record.id)
           setTag(record.id)
           break
       }
