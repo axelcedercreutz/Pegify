@@ -7,9 +7,8 @@ export default function Reader() {
 
   const handleReadingEvent = async event => {
     const message = event.message
-    alert(event.message.length)
     for (const record of message.records) {
-      alert("Record:  " + record)
+      alert("Record keys:  " + Object.keys(record))
       alert("Record type:  " + record.recordType)
       alert("MIME type:    " + record.mediaType)
       alert("Record id:    " + record.id)
