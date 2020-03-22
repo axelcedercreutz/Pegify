@@ -20,7 +20,7 @@ function Inventory(props) {
           <TableBody>
           {props.inventory.map(inventoryItem => {
             return(
-              <TableRow>
+              <TableRow key={inventoryItem.name}>
               <TableCell>
                 {inventoryItem.name}
               </TableCell>
@@ -28,7 +28,7 @@ function Inventory(props) {
                 {inventoryItem.size}
               </TableCell>
               <TableCell>
-                Price
+                {inventoryItem.price}
               </TableCell>
             </TableRow>
             )

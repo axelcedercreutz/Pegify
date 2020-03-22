@@ -28,6 +28,7 @@ function NewProduct(props) {
     props.handleAddClick(invetoryItem);
     document.getElementById('name').value = '';
     document.getElementById('size').value = '';
+    document.getElementById('price').value = '';
     e.preventDefault();
     setInvetoryItem({});
   }
@@ -59,6 +60,17 @@ function NewProduct(props) {
             name="size"
             label="Size"
             id="size"
+            onChange={(e) => UpdateChange(e)}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="price"
+            label="Price"
+            id="price"
+            type="number"
             onChange={(e) => UpdateChange(e)}
           />
           <Button
