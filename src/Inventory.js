@@ -15,6 +15,9 @@ function Inventory(props) {
               <TableCell>
                 Price
               </TableCell>
+              <TableCell>
+                Sold
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -29,6 +32,9 @@ function Inventory(props) {
               </TableCell>
               <TableCell>
                 {inventoryItem.price}
+              </TableCell>
+              <TableCell>
+                {inventoryItem.sold ? 'Yes' : 'No'}
               </TableCell>
             </TableRow>
             )

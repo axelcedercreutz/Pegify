@@ -15,6 +15,7 @@ function NewProduct(props) {
     let newInventoryItem = !invetoryItem ?
       {
         [e.target.name]: e.target.value,
+        sold: false,
       }
       :
       {
