@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import './App.css';
 import NewProduct from './NewProduct';
-import Inventory from './Inventory';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
+import Dashboard from './Dashboard';
 
 
 function App() {
@@ -12,7 +12,6 @@ function App() {
   const [ showInventory, setShowInventory ] = useState(false);
 
   const [ inventory, setInventory] = useState([]);
-  console.log(inventory);
 
   const handleAddClick = (inventoryItem) => {
     const newInventory = [...inventory,inventoryItem];
@@ -34,7 +33,7 @@ function App() {
       </AppBar>
       {!showInventory ?
         <NewProduct handleAddClick={(e) => handleAddClick(e)}/> :
-        <Inventory inventory={inventory}/>
+        <Dashboard inventory={inventory} />
       }
     </div>
   );

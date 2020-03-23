@@ -14,19 +14,27 @@ function NewProduct(props) {
   const UpdateChange = (e) => {
     let newInventoryItem = !invetoryItem ?
       {
-        [e.target.name]: e.target.value,
-        sold: false,
+        [e.target.name]: e.target.name === 'price'?
+          parseInt(e.target.value):
+          e.target.value,
       }
       :
       {
         ...invetoryItem,
-        [e.target.name]: e.target.value,
+        [e.target.name]: e.target.name === 'price'?
+          parseInt(e.target.value):
+          e.target.value,
       }
     setInvetoryItem(newInventoryItem);
   }
 
   const handleSubmit = (e) => {
-    props.handleAddClick(invetoryItem);
+    let newInventoryItem =
+      {
+        ...invetoryItem,
+        sold: false,
+      }
+    props.handleAddClick(newInventoryItem);
     document.getElementById('name').value = '';
     document.getElementById('size').value = '';
     document.getElementById('price').value = '';

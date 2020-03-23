@@ -1,12 +1,9 @@
 import React from 'react';
 import {
-	Table,
-	TableHead,
-	TableRow,
-	TableCell,
-	TableBody,
 	Card,
-	CardContent
+	CardContent,
+	Typography,
+	makeStyles
 } from '@material-ui/core';
 
 function Analytics(props) {
@@ -15,35 +12,33 @@ function Analytics(props) {
 
 	const analyticsCard = (data, header) => {
 		const isSold = header === 'Sold';
-		const count = isSold ?
-			data.map(inventoryItem => !inventoryItem.sold).length :
-			data.map(inventoryItem => inventoryItem.sold);
+		const count = !isSold ?
+			data.filter(inventoryItem => !inventoryItem.sold).length :
+			data.filter(inventoryItem => inventoryItem.sold).length;
 
-		const value = isSold ?
-			data.map(inventoryItem => !inventoryItem.sold)
+		const value = !isSold ?
+			data.filter(inventoryItem => !inventoryItem.sold)
+				.map(inventoryItem => inventoryItem.price)
 				.reduce((a,b) => a + b, 0) :
-			data.map(inventoryItem => inventoryItem.sold)
+			data.filter(inventoryItem => inventoryItem.sold)
+				.map(inventoryItem => inventoryItem.price)
 				.reduce((a,b) => a + b, 0);
 		return(
-			<Card>
-				<CardContent>
-					<Typography className={classes.title} color="textSecondary" gutterBottom>
-						{header}
-					</Typography>
-					<Typography className={classes.title} color="textSecondary" gutterBottom>
-						Amount
-					</Typography>
-					<Typography className={classes.title} color="textSecondary" gutterBottom>
-						{count}
-					</Typography>
-					<Typography className={classes.title} color="textSecondary" gutterBottom>
-						Value
-					</Typography>
-					<Typography className={classes.title} color="textSecondary" gutterBottom>
-						{count}
-					</Typography>
-				</CardContent>
-			</Card>
+			<>
+				<Card className={classes.root} raised={true}>
+					<CardContent>
+						<Typography className={classes.title} color="primary" gutterBottom>
+							{header}
+						</Typography>
+						<Typography color="textSecondary" gutterBottom>
+							Amount: {count}
+						</Typography>
+						<Typography color="textSecondary" gutterBottom>
+							Value: {value.toString()}€
+						</Typography>
+					</CardContent>
+				</Card>
+			</>
 		)
 	}
 
@@ -57,18 +52,16 @@ function Analytics(props) {
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+		width: '18%',
+		margin: '2%',
+		display: 'inline-block',
+		['@media screen and (max-width: 960px)']: {
+			width: 200,
+			margin: 20,
+		}
   },
   title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
+    fontSize: 18,
   },
 });
 
