@@ -94,6 +94,7 @@ function NewProduct(props) {
             label="Scan NFC Tag"
             id="tag"
             type="number"
+            onChange={(e) => UpdateChange(e)}
           />
           <Reader setTag={(e) => UpdateChange(e)} />
           <Button

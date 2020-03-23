@@ -8,17 +8,17 @@ export default function Reader(setTag) {
   const handleReadingEvent = useCallback(async event => {
     const message = event.message
     for (const record of message.records) {
-      alert("Record keys:  " + Object.keys(record))
-      alert("Record type:  " + record.recordType)
-      alert("MIME type:    " + record.mediaType)
-      alert("Record id:    " + record.id)
+      console.log("Record keys:  " + Object.keys(record))
+      console.log("Record type:  " + record.recordType)
+      console.log("MIME type:    " + record.mediaType)
+      console.log("Record id:    " + record.id)
       switch (record.recordType) {
+        case 'empty':
+          setTag(fakeEvent(123456789))
         case 'text':
-          alert(record.data)
           setTag(fakeEvent(record.id))
           break
         default:
-          alert(record.data)
           setTag(fakeEvent(record.id))
           break
       }
@@ -34,6 +34,7 @@ export default function Reader(setTag) {
         reader.onreading = handleReadingEvent
       } else {
         setTag("Web NFC not supported on this device. Please use Chrome Beta for android and enable flag #enable-experimental-web-platform-features")
+        document.getElementById('tag').toggleAttribute('disabled', false)
       }
     }, [handleReadingEvent, setTag])
 
