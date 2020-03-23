@@ -77,7 +77,7 @@ function NewProduct(props) {
             required
             fullWidth
             name="price"
-            label="Price"
+            label="Price (€)"
             id="price"
             type="number"
             onChange={(e) => UpdateChange(e)}

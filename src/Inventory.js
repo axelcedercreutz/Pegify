@@ -13,7 +13,7 @@ function Inventory(props) {
                 Size
               </TableCell>
               <TableCell>
-                Price
+                Price (€)
               </TableCell>
               <TableCell>
                 Sold
