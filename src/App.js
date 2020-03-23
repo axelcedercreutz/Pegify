@@ -30,12 +30,10 @@ function App() {
   }
 
   const handleDeleteFromCollectedData = (dataItem) => {
-    console.log(dataItem);
     const allDataExecptDeleted = collectedData.filter(data => {
-      console.log(data);
-      if(data != dataItem) {
-        return data;
-      }
+        if(data !== dataItem) {
+          return data;
+        }
       return;
     });
     const newCollectedData = [...allDataExecptDeleted];
@@ -81,7 +79,10 @@ function App() {
             collectedData={collectedData}
             handleAddToCollectedData={(e) => handleAddToCollectedData(e)}
             handleDeleteFromCollectedData={(e) => handleDeleteFromCollectedData(e)}/> :
-          <Dashboard inventory={inventory} />
+          <Dashboard
+            collectedData={collectedData}
+            inventory={inventory}
+          />
         
       }
     </div>

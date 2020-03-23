@@ -62,6 +62,7 @@ function NewProduct(props) {
                 label={data}
                 name={data}
                 onChange={(e) => UpdateChange(e)}
+                type={data === 'price' ? 'number' : 'text'}
               />
             );
           })}
