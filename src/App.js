@@ -9,6 +9,7 @@ import Settings from './Settings';
 import AddIcon from '@material-ui/icons/Add';
 import SettingsIcon from '@material-ui/icons/Settings';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+//import Speech from './Speech';
 
 
 function App() {
@@ -16,11 +17,29 @@ function App() {
   const [showInventory, setShowInventory] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
-  const [ inventory, setInventory] = useState([]);
+  const [inventory, setInventory] = useState([]);
+  const [collectedData, setCollectedData] = useState(['productCategory', 'size', 'color', 'price', 'comments']);
 
   const handleAddClick = (inventoryItem) => {
     const newInventory = [...inventory,inventoryItem];
     setInventory(newInventory);
+  }
+
+  const handleAddToCollectedData = (dataItem) => {
+    const newCollectedData = [...collectedData, dataItem];
+    setCollectedData(newCollectedData);
+  }
+
+  const handleDeleteFromCollectedData = (dataItem) => {
+    const allDataExecptDeleted = collectedData.filter(data => {
+        if(data !== dataItem) {
+          return data;
+        }
+      return;
+    });
+    const newCollectedData = [...allDataExecptDeleted];
+    console.log(newCollectedData);
+    setCollectedData(newCollectedData);
   }
 
   const handleShowInventory = () => {
@@ -60,14 +79,26 @@ function App() {
         </Toolbar>
       </AppBar>
       {!showInventory && !showSettings ?
-          <NewProduct handleAddClick={(e) => handleAddClick(e)}/> :
+          <NewProduct
+            collectedData={collectedData}
+            handleAddClick={(e) => handleAddClick(e)}/> :
         showSettings ?
-          <Settings/> :
-          <Dashboard inventory={inventory} sell={sell}/>
+          <Settings
+            collectedData={collectedData}
+            handleAddToCollectedData={(e) => handleAddToCollectedData(e)}
+            handleDeleteFromCollectedData={(e) => handleDeleteFromCollectedData(e)}/> :
+          <Dashboard
+            collectedData={collectedData}
+            inventory={inventory}
+            sell={sell}
+          />
         
       }
     </div>
   );
 }
 
+/*
+<Speech/>
+*/
 export default App;

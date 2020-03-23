@@ -7,7 +7,10 @@ function Dashboard(props) {
   return (
     <>
         <Analytics inventory={props.inventory}/>
-        <Inventory inventory={props.inventory}/>
+        <Inventory
+            collectedData={props.collectedData}
+            inventory={props.inventory}
+        />
         <Reader setTag={(e) => props.sell(e)}/>
     </>
   );
