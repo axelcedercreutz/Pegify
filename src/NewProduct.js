@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import Reader from './Reader';
+
 function NewProduct(props) {
   const [invetoryItem, setInvetoryItem] = useState();
   
@@ -82,6 +84,18 @@ function NewProduct(props) {
             type="number"
             onChange={(e) => UpdateChange(e)}
           />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            disabled
+            name="tag"
+            label="Scan NFC Tag"
+            id="tag"
+            type="number"
+          />
+          <Reader setTag={(e) => UpdateChange(e)} />
           <Button
             fullWidth
             variant="contained"
