@@ -1,9 +1,11 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import Button from '@material-ui/core/Button';
 
-export default function Reader(setTag) {
+export default function Reader(props) {
 
+  const { setTag } = props
   const [buttonVisible, setVisibility] = useState('none')
+  const [buttonText, setButtonText] = useState('Activate NFC Reader')
 
   const handleReadingEvent = useCallback(async event => {
     const message = event.message
@@ -15,6 +17,7 @@ export default function Reader(setTag) {
       switch (record.recordType) {
         case 'empty':
           setTag(fakeEvent(123456789))
+          break
         case 'text':
           setTag(fakeEvent(record.id))
           break
@@ -28,15 +31,27 @@ export default function Reader(setTag) {
   const startReader = useCallback(
     async function start() {
       if ('NDEFReader' in window) {
-        const reader = new NDEFReader() // eslint-disable-line no-undef
-        await reader.scan()
-        reader.onerror = () => console.log('Error reading nfc tag')
-        reader.onreading = handleReadingEvent
+        try {
+          const reader = new NDEFReader() // eslint-disable-line no-undef
+          await reader.scan()
+          reader.onerror = () => console.log('Error reading nfc tag')
+          reader.onreading = handleReadingEvent
+        } catch(err) {
+          setButtonText("Web NFC not supported on this device. Please use Chrome Beta for android and enable flag #enable-experimental-web-platform-features")
+          const tagElement = document.getElementById('tag')
+          if (tagElement) {
+            tagElement.toggleAttribute('disabled', false)
+            setTag(fakeEvent(123456))
+          }
+        }
       } else {
-        setTag("Web NFC not supported on this device. Please use Chrome Beta for android and enable flag #enable-experimental-web-platform-features")
-        document.getElementById('tag').toggleAttribute('disabled', false)
+        setButtonText("Web NFC not supported on this device. Please use Chrome Beta for android and enable flag #enable-experimental-web-platform-features")
+        const tagElement = document.getElementById('tag')
+        if (tagElement) {
+          tagElement.toggleAttribute('disabled', false)
+        }
       }
-    }, [handleReadingEvent, setTag])
+    }, [handleReadingEvent, setButtonText, setTag])
 
   useEffect(() => {
     async function checkPermission() {
@@ -51,7 +66,7 @@ export default function Reader(setTag) {
   } , [startReader])
 
   const fakeEvent = (value) => {
-    return { target: { name: "Tag", value } }
+    return { target: { name: "tag", value } }
   }
   
 
@@ -65,7 +80,7 @@ export default function Reader(setTag) {
         onClick={startReader}
         style={{display: buttonVisible}}
       >
-        Activate NFC Reader
+      {buttonText}
       </Button>
     </div>
   )

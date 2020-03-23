@@ -96,7 +96,7 @@ function NewProduct(props) {
             type="number"
             onChange={(e) => UpdateChange(e)}
           />
-          <Reader setTag={(e) => UpdateChange(e)} />
+          <Reader setTag={(e) => UpdateChange(e)}/>
           <Button
             fullWidth
             variant="contained"

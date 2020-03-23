@@ -32,6 +32,13 @@ function App() {
     setShowSettings(!showSettings);
   }
 
+  const sell = (e) => {
+    const tagSold = e.target.value;
+    const itemSoldIndex = inventory.findIndex(el => el.tag === tagSold);
+    inventory[itemSoldIndex].sold = true;
+    setInventory(inventory);
+  }
+
   return (
     <div className="App">
       <AppBar position="static">
@@ -56,7 +63,7 @@ function App() {
           <NewProduct handleAddClick={(e) => handleAddClick(e)}/> :
         showSettings ?
           <Settings/> :
-          <Dashboard inventory={inventory} />
+          <Dashboard inventory={inventory} sell={sell}/>
         
       }
     </div>
