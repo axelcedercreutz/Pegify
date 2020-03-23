@@ -60,7 +60,7 @@ function App() {
       soldItem.sold = true;
       const newInventory = [...inventory];
       setInventory(newInventory);
-      alert(`Sold ${soldItem.productCategory} for ${soldItem.price}`)
+      alert(`Myyty: ${soldItem.color} ${soldItem.productCategory}, ${soldItem.price}€`)
     }
   }
 

@@ -210,7 +210,7 @@ function NewProduct(props) {
             required
             fullWidth
             id={'price'}
-            label={'Price (€)'}
+            label={'Hinta (€)'}
             name={'price'}
             onChange={(e) => UpdateChange(e)}
             type={'number'}
@@ -251,7 +251,7 @@ function NewProduct(props) {
             type="submit"
             onClick={(e) => handleSubmit(e)}
           >
-            Add
+            Lisää
           </Button>
         </form>
       </div>

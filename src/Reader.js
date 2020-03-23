@@ -20,9 +20,9 @@ export default function Reader(props) {
   const classes = useStyles()
 
   const { setTag } = props
-  const [tagValue, setTagValue] = useState("----")
+  const [tagValue, setTagValue] = useState("Lue uusi klipsi")
   const [buttonVisible, setVisibility] = useState('none')
-  const [buttonText, setButtonText] = useState('Activate NFC Reader')
+  const [buttonText, setButtonText] = useState('Aktivoi NFC')
 
   const handleReadingEvent = useCallback(async event => {
     const message = event.message
@@ -93,7 +93,7 @@ export default function Reader(props) {
     <div className="Reader">
     <Paper className={classes.paper}>
     <Typography component="h1" variant="h5">
-      Last read tag:
+      Klipsikoodi:
     </Typography>
     <Typography component="span" variant="body1">
     {tagValue}
