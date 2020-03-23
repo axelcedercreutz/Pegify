@@ -17,10 +17,30 @@ function App() {
   const [showSettings, setShowSettings] = useState(false);
 
   const [ inventory, setInventory] = useState([]);
+  const [collectedData, setCollectedData] = useState(['name', 'size', 'price']);
 
   const handleAddClick = (inventoryItem) => {
     const newInventory = [...inventory,inventoryItem];
     setInventory(newInventory);
+  }
+
+  const handleAddToCollectedData = (dataItem) => {
+    const newCollectedData = [...collectedData, dataItem];
+    setCollectedData(newCollectedData);
+  }
+
+  const handleDeleteFromCollectedData = (dataItem) => {
+    console.log(dataItem);
+    const allDataExecptDeleted = collectedData.filter(data => {
+      console.log(data);
+      if(data != dataItem) {
+        return data;
+      }
+      return;
+    });
+    const newCollectedData = [...allDataExecptDeleted];
+    console.log(newCollectedData);
+    setCollectedData(newCollectedData);
   }
 
   const handleShowInventory = () => {
@@ -55,7 +75,10 @@ function App() {
       {!showInventory && !showSettings ?
           <NewProduct handleAddClick={(e) => handleAddClick(e)}/> :
         showSettings ?
-          <Settings/> :
+          <Settings
+            collectedData={collectedData}
+            handleAddToCollectedData={(e) => handleAddToCollectedData(e)}
+            handleDeleteFromCollectedData={(e) => handleDeleteFromCollectedData(e)}/> :
           <Dashboard inventory={inventory} />
         
       }
