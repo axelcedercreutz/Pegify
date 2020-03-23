@@ -27,7 +27,7 @@ function App() {
       <AppBar position="static">
         <Toolbar>
           <Button color="inherit" onClick={handleClick}>
-            {!showInventory ? 'Show Inventory' : 'Add new'}
+            {!showInventory ? 'Dashboard' : 'Add new product'}
           </Button>
         </Toolbar>
       </AppBar>
