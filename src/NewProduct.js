@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -9,12 +9,28 @@ import { RadioGroup,
 	FormControlLabel,
 	Radio } from '@material-ui/core';
 
+  if (!('webkitSpeechRecognition' in window)) {
+    //Speech API not supported here…
+    console.log('wrong place');
+  } else { //Let’s do some cool stuff :)
+    var recognition = new webkitSpeechRecognition();// eslint-disable-line no-undef
+    //That is the object that will manage our whole recognition process. 
+    recognition.continuous = true;   //Suitable for dictation. 
+    recognition.interimResults = true;  //If we want to start receiving results even if they are not final.
+    //Define some more additional parameters for the recognition:
+    recognition.lang = "fi-FI"; 
+    recognition.maxAlternatives = 1; //Since from our experience, the highest result is really the best...
+  }
+
+
 function NewProduct(props) {
-  const [invetoryItem, setInvetoryItem] = useState({
+  const defaultInvetoryItem = {
     'productCategory': 'paita', 
     'size': 'XXS',
     'color': 'musta', 
-  });
+  };
+  const [invetoryItem, setInvetoryItem] = useState(defaultInvetoryItem);
+  const [listening, setListening] = useState(false);
   const productCategories = ['paita', 'farkut', 'hame', 'mekko', 'takki'];
   const sizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
   const colors = ['musta', 'harmaa', 'valkoinen', 'punainen', 'vihreä', 'sininen', 'keltainen', 'oranssi', 'liila', 'pinkki', 'beige', 'ruskea'];
@@ -24,9 +40,49 @@ function NewProduct(props) {
   
   const classes = useStyles();
 
+  useEffect(() => {
+    handleListen();
+  }, [listening])
+
+  const toggleListen = () => {
+    setListening(!listening);
+  }
+
+  const handleListen = () => {
+    console.log('listening?', listening);
+
+    if (listening) {
+      recognition.start();
+      recognition.onend = () => {
+        console.log("...continue listening...")
+        recognition.start()
+      }
+
+    } else {
+      recognition.stop();
+      recognition.onend = () => {
+        console.log("Stopped listening per click")
+      }
+    }
+
+    recognition.onstart = () => {
+      console.log("Listening!")
+    }
+
+    let finalTranscript = '';
+    recognition.onresult = event => {
+      let interimTranscript = ''
+
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) finalTranscript += transcript + ' ';
+        else interimTranscript += transcript;
+      }
+      document.getElementById('comments').innerHTML = finalTranscript;
+    }
+  }
+
   const handleChange = (key, value) => {
-    console.log(key);
-    console.log(value);
     let newInventoryItem = !invetoryItem ?
       {
         [key]: value,
@@ -36,6 +92,14 @@ function NewProduct(props) {
         ...invetoryItem,
         [key]: value,
       }
+    setInvetoryItem(newInventoryItem);
+  }
+
+  const updateChangedComments = (comment) => {
+    let newInventoryItem ={
+      ...invetoryItem,
+      ['comments']: comment,
+    }
     setInvetoryItem(newInventoryItem);
   }
 
@@ -62,14 +126,16 @@ function NewProduct(props) {
       {
         ...invetoryItem,
         sold: false,
+        comments: document.getElementById('comments').innerHTML,
       }
     props.handleAddClick(newInventoryItem);
     document.getElementById('price').value = '';
     document.getElementById('comments').value = '';
+    document.getElementById('comments').innerHTML = '';
     newCollectedData.length > 0 && newCollectedData.map(data => {
       document.getElementById(data).value = '';
     })
-    setInvetoryItem({});
+    setInvetoryItem(defaultInvetoryItem);
   }
 
   return (
@@ -145,15 +211,18 @@ function NewProduct(props) {
             onChange={(e) => UpdateChange(e)}
             type={'number'}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            id={'comments'}
-            label={'Lisätietoa'}
-            name={'comments'}
-            onChange={(e) => UpdateChange(e)}
-          />
+          <Typography variant={'h5'} align={'left'}>Lisätietoja</Typography>
+          <div className={classes.rowFlex}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={() => toggleListen()}
+            >
+              {listening ? 'Lopeta' : 'Nauhoita'} 
+            </Button>
+            <div id='comments' className={classes.final} onClick={() => toggleListen()}></div>
+          </div>
           {newCollectedData.length > 0 &&
             newCollectedData.map(data => {
               return(
@@ -204,11 +273,19 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  final: {
+    color: 'black',
+    border: '#ccc 1px solid',
+    padding: '1em',
+    margin: '1em',
+    width: '300px'
+  },
+  rowFlex: {
+    margin: '0 auto',
+    display: 'flex',
+    alignContent: 'center',
+    alignItems: 'center',
+  }
 }));
 
 export default NewProduct;
-
-
-/*
-
-*/
