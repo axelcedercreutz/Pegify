@@ -1,9 +1,26 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles'
+import Divider from '@material-ui/core/Divider'
+
+const useStyles = makeStyles(theme => ({
+  paper: {
+    marginTop: theme.spacing(5),
+    padding: theme.spacing(1),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+}));
 
 export default function Reader(props) {
 
+  const classes = useStyles()
+
   const { setTag } = props
+  const [tagValue, setTagValue] = useState("----")
   const [buttonVisible, setVisibility] = useState('none')
   const [buttonText, setButtonText] = useState('Activate NFC Reader')
 
@@ -48,7 +65,7 @@ export default function Reader(props) {
         setButtonText("Web NFC not supported on this device. Please use Chrome Beta for android and enable flag #enable-experimental-web-platform-features")
         const tagElement = document.getElementById('tag')
         if (tagElement) {
-          tagElement.toggleAttribute('disabled', false)
+          tagElement.toggleAttribute('readOnly', false)
         }
       }
     }, [handleReadingEvent, setButtonText, setTag])
@@ -72,16 +89,24 @@ export default function Reader(props) {
 
   return (
     <div className="Reader">
+    <Paper className={classes.paper}>
+    <Typography component="h1" variant="h5">
+      Last read tag:
+    </Typography>
+    <Typography component="span" variant="body1">
+    {tagValue}
+    </Typography>
+    <Divider variant="middle"/>
       <Button
-        fullWidth
         variant="contained"
         color="primary"
-        className="ReaderButton"
+        className={classes.button}
         onClick={startReader}
         style={{display: buttonVisible}}
       >
       {buttonText}
       </Button>
+    </Paper>
     </div>
   )
 }

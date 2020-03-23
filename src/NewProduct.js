@@ -40,6 +40,7 @@ function NewProduct(props) {
     document.getElementById('name').value = '';
     document.getElementById('size').value = '';
     document.getElementById('price').value = '';
+    document.getElementById('tag').value = '';
     e.preventDefault();
     setInvetoryItem({});
   }
@@ -81,18 +82,6 @@ function NewProduct(props) {
             name="price"
             label="Price (€)"
             id="price"
-            type="number"
-            onChange={(e) => UpdateChange(e)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            disabled
-            name="tag"
-            label="Scan NFC Tag"
-            id="tag"
             type="number"
             onChange={(e) => UpdateChange(e)}
           />
