@@ -15,7 +15,7 @@ function Settings(props) {
     const handleChange = (data) => {
 			props.handleDeleteFromCollectedData(data);
     }
-		const originalCollectedData = ['name', 'size', 'price'];
+		const originalCollectedData = ['productCategory', 'size','color', 'price', 'comments'];
 		const [newClass, setNewClass] = useState();
 
     const classes = useStyles();
@@ -90,15 +90,19 @@ function Settings(props) {
 
   return (
 		<>
-			{allAddedForms()}
 			{addNew()}
+			<div className={classes.center}>
+				{allAddedForms()}
+			</div>
 		</>
   );
 }
 
 const useStyles = makeStyles(theme => ({
     center: {
-        margin: '0 auto',
+				margin: '0 auto',
+				display: 'flex',
+				alignContent: 'center',
     }
   }));
 

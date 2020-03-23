@@ -9,6 +9,7 @@ import Settings from './Settings';
 import AddIcon from '@material-ui/icons/Add';
 import SettingsIcon from '@material-ui/icons/Settings';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+//import Speech from './Speech';
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
   const [showSettings, setShowSettings] = useState(false);
 
   const [inventory, setInventory] = useState([]);
-  const [collectedData, setCollectedData] = useState(['name', 'size', 'price']);
+  const [collectedData, setCollectedData] = useState(['productCategory', 'size', 'color', 'price', 'comments']);
 
   const handleAddClick = (inventoryItem) => {
     const newInventory = [...inventory,inventoryItem];
@@ -89,4 +90,7 @@ function App() {
   );
 }
 
+/*
+<Speech/>
+*/
 export default App;
