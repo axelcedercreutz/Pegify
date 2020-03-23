@@ -16,7 +16,7 @@ function App() {
   const [showInventory, setShowInventory] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
-  const [ inventory, setInventory] = useState([]);
+  const [inventory, setInventory] = useState([]);
   const [collectedData, setCollectedData] = useState(['name', 'size', 'price']);
 
   const handleAddClick = (inventoryItem) => {
@@ -73,7 +73,9 @@ function App() {
         </Toolbar>
       </AppBar>
       {!showInventory && !showSettings ?
-          <NewProduct handleAddClick={(e) => handleAddClick(e)}/> :
+          <NewProduct
+            collectedData={collectedData}
+            handleAddClick={(e) => handleAddClick(e)}/> :
         showSettings ?
           <Settings
             collectedData={collectedData}

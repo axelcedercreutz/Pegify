@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container';
 
 function NewProduct(props) {
   const [invetoryItem, setInvetoryItem] = useState();
+  const originalCollectedData = ['name', 'size', 'price'];
   
   const classes = useStyles();
 
@@ -29,16 +30,16 @@ function NewProduct(props) {
   }
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     let newInventoryItem =
       {
         ...invetoryItem,
         sold: false,
       }
     props.handleAddClick(newInventoryItem);
-    document.getElementById('name').value = '';
-    document.getElementById('size').value = '';
-    document.getElementById('price').value = '';
-    e.preventDefault();
+    props.collectedData.map(data => {
+      document.getElementById(data).value = '';
+    });
     setInvetoryItem({});
   }
 
@@ -50,38 +51,20 @@ function NewProduct(props) {
           Add new product
         </Typography>
         <form className={classes.form} noValidate >
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="Name"
-            name="name"
-            autoFocus
-            onChange={(e) => UpdateChange(e)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="size"
-            label="Size"
-            id="size"
-            onChange={(e) => UpdateChange(e)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="price"
-            label="Price (€)"
-            id="price"
-            type="number"
-            onChange={(e) => UpdateChange(e)}
-          />
+          {props.collectedData.map(data => {
+            return(
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required={originalCollectedData.includes(data)}
+                fullWidth
+                id={data}
+                label={data}
+                name={data}
+                onChange={(e) => UpdateChange(e)}
+              />
+            );
+          })}
           <Button
             fullWidth
             variant="contained"
