@@ -27,18 +27,20 @@ export default function Reader(props) {
   const handleReadingEvent = useCallback(async event => {
     const message = event.message
     for (const record of message.records) {
-      console.log("Record keys:  " + Object.keys(record))
       console.log("Record type:  " + record.recordType)
       console.log("MIME type:    " + record.mediaType)
       console.log("Record id:    " + record.id)
       switch (record.recordType) {
         case 'empty':
+          setTagValue(123456789)
           setTag(fakeEvent(123456789))
           break
         case 'text':
+          setTagValue(record.id)
           setTag(fakeEvent(record.id))
           break
         default:
+          setTagValue(record.id)
           setTag(fakeEvent(record.id))
           break
       }
