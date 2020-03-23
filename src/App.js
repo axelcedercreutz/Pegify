@@ -52,10 +52,16 @@ function App() {
   }
 
   const sell = (e) => {
+    console.log(`Selling ${e.target.name} - ${e.target.value}`)
     const tagSold = e.target.value;
-    const itemSoldIndex = inventory.findIndex(el => el.tag === tagSold);
-    inventory[itemSoldIndex].sold = true;
-    setInventory(inventory);
+    const itemSoldIndex = inventory.findIndex(el => el.tag === tagSold && el.sold === false);
+    if (itemSoldIndex !== -1) {
+      const soldItem = inventory[itemSoldIndex]
+      soldItem.sold = true;
+      const newInventory = [...inventory];
+      setInventory(newInventory);
+      alert(`Sold ${soldItem.productCategory} for ${soldItem.price}`)
+    }
   }
 
   return (
