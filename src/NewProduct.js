@@ -40,7 +40,6 @@ function NewProduct(props) {
     document.getElementById('name').value = '';
     document.getElementById('size').value = '';
     document.getElementById('price').value = '';
-    document.getElementById('tag').value = '';
     e.preventDefault();
     setInvetoryItem({});
   }
