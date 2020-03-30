@@ -27,14 +27,16 @@ function NewProduct(props) {
   const defaultInvetoryItem = {
     'productCategory': 'paita', 
     'size': 'XXS',
-    'color': 'musta', 
+    'color': 'musta',
+    'model': 'unisex', 
   };
   const [invetoryItem, setInvetoryItem] = useState(defaultInvetoryItem);
   const [listening, setListening] = useState(false);
   const productCategories = ['paita', 'farkut', 'hame', 'mekko', 'takki'];
   const sizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
   const colors = ['musta', 'harmaa', 'valkoinen', 'punainen', 'vihreä', 'sininen', 'keltainen', 'oranssi', 'liila', 'pinkki', 'beige', 'ruskea'];
-  const originalCollectedData = ['productCategory', 'size','color', 'price', 'comments'];
+  const models = ['unisex', 'nainen', 'mies'];
+  const originalCollectedData = ['model','productCategory', 'size','color', 'price', 'comments'];
 
   const newCollectedData = props.collectedData.filter(data => !originalCollectedData.includes(data));
   
@@ -139,6 +141,24 @@ function NewProduct(props) {
         <Typography component="h1" variant="h4" gutterBottom>
           Lisää uusi tuote
         </Typography>
+          <Typography variant={'h5'} align={'left'}>Malli</Typography>
+          <RadioGroup row value={invetoryItem.model} className={classes.center}>
+            {models.map(model => {
+                return(
+                    <FormControlLabel
+                      key={model} 
+                      control={
+                          <Radio   
+                              value={model}
+                              onChange={() => handleChange('model', model)}
+                              name={model}
+                          />
+                      }
+                      label={model}
+                    />
+                )
+            })}
+          </RadioGroup>
           <Typography variant={'h5'} align={'left'}>Tuotetyyppi</Typography>
           <RadioGroup row value={invetoryItem.productCategory} className={classes.center}>
             {productCategories.map(productType => {

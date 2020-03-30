@@ -13,15 +13,18 @@ import {
   Button
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
 
 
 function App() {
+
+  const classes = useStyles();
 
   const [showInventory, setShowInventory] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
   const [inventory, setInventory] = useState([]);
-  const [collectedData, setCollectedData] = useState(['productCategory', 'size', 'color', 'price', 'comments']);
+  const [collectedData, setCollectedData] = useState(['model', 'productCategory', 'size', 'color', 'price', 'comments']);
   const [open, setOpen] = useState(false);
   const [toastText, setToastText] = useState(false);
 
@@ -111,12 +114,24 @@ function App() {
         
           
       }
-      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} className={classes.fullWidth}>
+        <Alert onClose={handleClose} severity="success" classes={{root: classes.fullWidth}}>
             {toastText}
         </Alert>
       </Snackbar>
     </div>
   );
 }
+
+const useStyles = makeStyles(theme => ({
+  fullWidth:{
+    width: '100%',
+    bottom: 0,
+    ['@media screen and (max-width: 599px)']: {
+			left: 0,
+      right: 0,
+		}
+  }
+}));
+
 export default App;
