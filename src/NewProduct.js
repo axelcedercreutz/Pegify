@@ -219,7 +219,7 @@ function NewProduct(props) {
             required
             fullWidth
             id={'price'}
-            label={'Price (€)'}
+            label={'Hinta (€)'}
             name={'price'}
             onChange={(e) => UpdateChange(e)}
             type={'number'}
