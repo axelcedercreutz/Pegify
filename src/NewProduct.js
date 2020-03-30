@@ -31,14 +31,16 @@ function NewProduct(props) {
   const defaultInvetoryItem = {
     'productCategory': 'paita', 
     'size': 'XXS',
-    'color': 'musta', 
+    'color': 'musta',
+    'model': 'unisex', 
   };
   const [invetoryItem, setInvetoryItem] = useState(defaultInvetoryItem);
   const [listening, setListening] = useState(false);
   const productCategories = ['paita', 'farkut', 'hame', 'mekko', 'takki'];
   const sizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
   const colors = ['musta', 'harmaa', 'valkoinen', 'punainen', 'vihreä', 'sininen', 'keltainen', 'oranssi', 'liila', 'pinkki', 'beige', 'ruskea'];
-  const originalCollectedData = ['productCategory', 'size','color', 'price', 'comments'];
+  const models = ['unisex', 'nainen', 'mies'];
+  const originalCollectedData = ['model','productCategory', 'size','color', 'price', 'comments'];
 
   const newCollectedData = props.collectedData.filter(data => !originalCollectedData.includes(data));
   
@@ -99,13 +101,6 @@ function NewProduct(props) {
     setInvetoryItem(newInventoryItem);
   }
 
-  const updateChangedComments = (comment) => {
-    let newInventoryItem ={
-      ...invetoryItem,
-      ['comments']: comment,
-    }
-    setInvetoryItem(newInventoryItem);
-  }
 
   const UpdateChange = (e) => {
     let newInventoryItem = !invetoryItem ?
@@ -125,6 +120,7 @@ function NewProduct(props) {
   }
 
   const handleSubmit = (e) => {
+    console.log(e.keycode);
     e.preventDefault();
     let newInventoryItem =
       {
@@ -149,7 +145,24 @@ function NewProduct(props) {
         <Typography component="h1" variant="h4" gutterBottom>
           Lisää uusi tuote
         </Typography>
-        <form className={classes.form} noValidate >
+          <Typography variant={'h5'} align={'left'}>Malli</Typography>
+          <RadioGroup row value={invetoryItem.model} className={classes.center}>
+            {models.map(model => {
+                return(
+                    <FormControlLabel
+                      key={model} 
+                      control={
+                          <Radio   
+                              value={model}
+                              onChange={() => handleChange('model', model)}
+                              name={model}
+                          />
+                      }
+                      label={model}
+                    />
+                )
+            })}
+          </RadioGroup>
           <Typography variant={'h5'} align={'left'}>Tuotetyyppi</Typography>
           <RadioGroup row value={invetoryItem.productCategory} className={classes.center}>
             {productCategories.map(productType => {
@@ -248,12 +261,10 @@ function NewProduct(props) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            type="submit"
             onClick={(e) => handleSubmit(e)}
           >
             Lisää
           </Button>
-        </form>
       </div>
     </Container>
   );
@@ -286,6 +297,7 @@ const useStyles = makeStyles(theme => ({
     width: '300px'
   },
   rowFlex: {
+    width: '100%', // Fix IE 11 issue.
     margin: '0 auto',
     display: 'flex',
     alignContent: 'center',
