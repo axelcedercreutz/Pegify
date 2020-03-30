@@ -89,8 +89,4 @@ function App() {
     </div>
   );
 }
-
-/*
-<Speech/>
-*/
 export default App;

@@ -95,13 +95,6 @@ function NewProduct(props) {
     setInvetoryItem(newInventoryItem);
   }
 
-  const updateChangedComments = (comment) => {
-    let newInventoryItem ={
-      ...invetoryItem,
-      ['comments']: comment,
-    }
-    setInvetoryItem(newInventoryItem);
-  }
 
   const UpdateChange = (e) => {
     let newInventoryItem = !invetoryItem ?
@@ -121,6 +114,7 @@ function NewProduct(props) {
   }
 
   const handleSubmit = (e) => {
+    console.log(e.keycode);
     e.preventDefault();
     let newInventoryItem =
       {
@@ -145,7 +139,6 @@ function NewProduct(props) {
         <Typography component="h1" variant="h4" gutterBottom>
           Lisää uusi tuote
         </Typography>
-        <form className={classes.form} noValidate >
           <Typography variant={'h5'} align={'left'}>Tuotetyyppi</Typography>
           <RadioGroup row value={invetoryItem.productCategory} className={classes.center}>
             {productCategories.map(productType => {
@@ -243,12 +236,10 @@ function NewProduct(props) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            type="submit"
             onClick={(e) => handleSubmit(e)}
           >
             Add
           </Button>
-        </form>
       </div>
     </Container>
   );
@@ -281,6 +272,7 @@ const useStyles = makeStyles(theme => ({
     width: '300px'
   },
   rowFlex: {
+    width: '100%', // Fix IE 11 issue.
     margin: '0 auto',
     display: 'flex',
     alignContent: 'center',
