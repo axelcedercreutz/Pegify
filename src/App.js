@@ -1,15 +1,18 @@
 import React, {useState} from 'react';
 import './App.css';
 import NewProduct from './NewProduct';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
 import Dashboard from './Dashboard';
 import Settings from './Settings';
 import AddIcon from '@material-ui/icons/Add';
 import SettingsIcon from '@material-ui/icons/Settings';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-//import Speech from './Speech';
+import {
+  Snackbar,
+  AppBar,
+  Toolbar,
+  Button
+} from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 
 
 function App() {
@@ -19,9 +22,26 @@ function App() {
 
   const [inventory, setInventory] = useState([]);
   const [collectedData, setCollectedData] = useState(['productCategory', 'size', 'color', 'price', 'comments']);
+  const [open, setOpen] = useState(false);
+  const [toastText, setToastText] = useState(false);
+
+  const handleClick = (inventoryItem) => {
+    const text = inventoryItem.productCategory + ' ' + inventoryItem.size + ' ' + inventoryItem.color + ' added';
+    setToastText(text);
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const handleAddClick = (inventoryItem) => {
     const newInventory = [...inventory,inventoryItem];
+    handleClick(inventoryItem);
     setInventory(newInventory);
   }
 
@@ -49,6 +69,10 @@ function App() {
   const handleShowSettings = () => {
     showInventory && setShowInventory(!showInventory);
     setShowSettings(!showSettings);
+  }
+
+  function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
   return (
@@ -85,7 +109,13 @@ function App() {
             inventory={inventory}
           />
         
+          
       }
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+            {toastText}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
